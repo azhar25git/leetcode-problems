@@ -4,15 +4,16 @@
 * Leetcode link: https://leetcode.com/problems/accounts-merge/
 */
 class UnionFind {
+    // Union by size
     function __construct($n) {
-        $this->par = range(0, $n-1);
-        $this->rank = array_fill(0, $n, 1);
+        $this->parent = range(0, $n-1);
+        $this->size = array_fill(0, $n, 1);
     }
 
     function find($x) {
-        while($x != $this->par[$x]) {
-            $this->par[$x] = $this->par[$this->par[$x]];
-            $x = $this->par[$x];
+        while($x != $this->parent[$x]) {
+            $this->parent[$x] = $this->parent[$this->parent[$x]];
+            $x = $this->parent[$x];
         }
         return $x;
     }
@@ -20,13 +21,13 @@ class UnionFind {
     function union($x1, $x2) {
         [$p1, $p2] = [$this->find($x1), $this->find($x2)];
         if($p1 == $p2) return false;
-        if($this->rank[$p1] > $this->rank[$p2]) {
-            $this->par[$p2] = $p1;
-            $this->rank[$p1] += $this->rank[$p2];
+        if($this->size[$p1] > $this->size[$p2]) {
+            $this->parent[$p2] = $p1;
+            $this->size[$p1] += $this->size[$p2];
         }
         else {
-            $this->par[$p1] = $p2;
-            $this->rank[$p2] += $this->rank[$p1];
+            $this->parent[$p1] = $p2;
+            $this->size[$p2] += $this->size[$p1];
         }
         return true;
     }
