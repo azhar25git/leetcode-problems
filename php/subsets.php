@@ -11,17 +11,23 @@ class Solution {
     function subsets($nums) {
         $res = [];
 
-        $this->bt($res, [], $nums, 0);
+        $this->dfs(0, $res, [], $nums);
 
         return $res;
     }
 
-    function bt(&$res, $temp, $nums, $start) {
-        array_push($res, $temp);
-        for($i=$start; $i<count($nums); $i++) {
-            array_push($temp, $nums[$i]);
-            $this->bt($res, $temp, $nums, $i+1);
-            array_pop($temp);
+    function dfs($i, &$res, $subset, $nums) {
+        if($i>=count($nums)) {
+            $res[] = [...$subset];
+            return;
         }
+
+        // include $nums[$i]
+        array_push($subset, $nums[$i]);
+        $this->dfs($i+1, $res, $subset, $nums);
+
+        // exclude $nums[$i]
+        array_pop($subset);
+        $this->dfs($i+1, $res, $subset, $nums);
     }
 }
