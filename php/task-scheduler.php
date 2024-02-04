@@ -40,15 +40,16 @@ class Solution {
 
     //     return $time;
     // }
-
+    // efficient
     function leastInterval($tasks, $n) {
+        if($n === 0) return count($tasks);
         $taskQtyAr = array_count_values($tasks);
         rsort($taskQtyAr);
         $distinctTasks = count($taskQtyAr);
         $gapsNum = $taskQtyAr[0] - 1;
         $maxGap = $gapsNum * $n;
 
-        for ($i=1; $i<=$distinctTasks - 1; $i++) { 
+        for ($i=1; $i<=$distinctTasks - 1; $i++) {
             $maxGap = $maxGap - min($gapsNum, $taskQtyAr[$i]);
         }
         return ($maxGap > 0) ? count($tasks) + $maxGap : count($tasks);
