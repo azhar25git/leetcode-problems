@@ -29,8 +29,8 @@ class LRUCache {
         
         $prev = $node->prev; // A
         $next = $node->next; // C
-        $prev->next = $next; // A - next = C - prev
-        $next->prev = $prev; // C - prev = A - next
+        $prev->next = $next; // A - next = C
+        $next->prev = $prev; // C - prev = A
 
         // now A -- C and node B is removed
     }
