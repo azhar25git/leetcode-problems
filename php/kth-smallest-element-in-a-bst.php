@@ -22,23 +22,53 @@ class Solution {
      * @param Integer $k
      * @return Integer
      */
-    function kthSmallest($root, $k) {
-        $heap = [];
-        $this->cache = [];
-        $this->dfs($root, $k, $heap);
-        sort($heap);
+    // iterative solution
+    // function kthSmallest($root, $k) {
+    //     $stack = [];
+    //     $count = 0;
 
-        return $heap[$k-1];
+    //     while ($root !== null || !empty($stack)) {
+    //         while ($root !== null) {
+    //             $stack[] = $root;
+    //             $root = $root->left;
+    //         }
+
+    //         $root = array_pop($stack);
+    //         $count++;
+            
+    //         if ($count == $k) {
+    //             return $root->val;
+    //         }
+
+    //         $root = $root->right;
+    //     }
+
+    //     return -1; // Return -1 if k is out of range or tree is empty
+    // }
+    // recursive solution
+    function kthSmallest($root, $k) {
+        $this->count = 0;
+        return $this->inOrderTraversal($root, $k);
     }
 
-    function dfs($root, $k, &$heap) {
-        if(!$root) return;
-        if(isset($this->cache[$root->val])) return;
-        $this->cache[$root->val] = 1;
-        $heap[] = $root->val;
-        $this->dfs($root->left, $k, $heap);
-        $this->dfs($root->right, $k, $heap);
+    function inOrderTraversal($root, $k) {
+        if ($root == null) {
+            return -1; // Return -1 if the tree is empty
+        }
 
-        return;
+        // Traverse left subtree
+        $left = $this->inOrderTraversal($root->left, $k);
+        if ($left != -1) {
+            return $left;
+        }
+
+        // Process current node
+        $this->count++;
+        if ($this->count == $k) {
+            return $root->val;
+        }
+
+        // Traverse right subtree
+        return $this->inOrderTraversal($root->right, $k);
     }
 }
